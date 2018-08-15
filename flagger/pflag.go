@@ -5,7 +5,7 @@ import flag "github.com/ogier/pflag"
 type PFlagSet struct {
 	NoCount
 	NoCountP
-	flag.FlagSet
+	*flag.FlagSet
 }
 
 // Usage
