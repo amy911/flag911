@@ -6,6 +6,8 @@ type Flagger interface {
 	SetUsageFooter(string)
 	SetUsageHeader(string)
 
+	Parse([]string) error
+
 	CountWorks() bool
 	PVersionsWork() bool
 
