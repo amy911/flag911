@@ -5,10 +5,10 @@ type NoCountP struct {
 
 // Count
 
-func (fs NoCountP) CountP(name string, shorthand string, value int, usage string) *int {
+func (fs *NoCountP) CountP(name string, shorthand string, value int, usage string) *int {
 	panic(NewErrNotSupported())
 }
 
-func (fs NoCountP) CountVarP(p *int, name string, shorthand string, value int, usage string) {
+func (fs *NoCountP) CountVarP(p *int, name string, shorthand string, value int, usage string) {
 	panic(NewErrNotSupported())
 }
