@@ -7,12 +7,17 @@ import (
 	"time"
 )
 
-type Hook func(fs *FlagSet, fn string, p interface{}, name string, shorthand string, value interface{}, usage string) error
+type Hook func(fs *FlagSet, fn string, p interface{}, name string, shorthand string, value interface{}, usage string, user []interface{}) error
+
+type hookWrap struct {
+	Hook
+	User []interface{}
+}
 
 type FlagSet struct {
 	Impl       interface{}
 	User       []interface{}
-	hooks      map[string]Hook
+	hooks      map[string]hookWrap
 	hooksMutex sync.RWMutex
 }
 
@@ -23,45 +28,45 @@ func New(impl interface{}, user ...interface{}) *FlagSet {
 func (fs *FlagSet) Init(impl interface{}, user ...interface{}) *FlagSet {
 	fs.Impl = impl
 	fs.User = user
-	fs.hooks = make(map[string]Hook)
+	fs.hooks = make(map[string]hookWrap)
 	return fs
 }
 
 // Hooks
 
-func (fs *FlagSet) DeleteAllHooks_(key string) {
+func (fs *FlagSet) DeleteAllHooks_() {
 	fs.hooksMutex.Lock()
 	defer fs.hooksMutex.Unlock()
-	fs.hooks = make(map[string]Hook)
+	fs.hooks = make(map[string]hookWrap)
 }
 
-func (fs *FlagSet) DeleteHook(key string) (Hook, bool) {
+func (fs *FlagSet) DeleteHook(key string) (hookWrap, bool) {
 	fs.hooksMutex.Lock()
 	defer fs.hooksMutex.Unlock()
 	hook, ok := fs.hooks[key]
 	delete(fs.hooks, key)
-	if !ok || hook == nil {
-		hook = nil
+	if !ok || hook.Hook == nil {
+		hook.Hook = nil
 		ok = false
 	}
 	return hook, ok
 }
 
-func (fs *FlagSet) GetHook(key string) (Hook, bool) {
+func (fs *FlagSet) GetHook(key string) (hookWrap, bool) {
 	fs.hooksMutex.RLock()
 	defer fs.hooksMutex.RUnlock()
 	hook, ok := fs.hooks[key]
-	if !ok || hook == nil {
-		hook = nil
+	if !ok || hook.Hook == nil {
+		hook.Hook = nil
 		ok = false
 	}
 	return hook, ok
 }
 
-func (fs *FlagSet) SetHook(key string, hook Hook) {
+func (fs *FlagSet) SetHook(key string, hook Hook, user ...interface{}) {
 	fs.hooksMutex.Lock()
 	defer fs.hooksMutex.Unlock()
-	fs.hooks[key] = hook
+	fs.hooks[key] = hookWrap{Hook: hook, User: user}
 }
 
 // Standard
@@ -1220,8 +1225,8 @@ func (fs *FlagSet) runHooks(fn string, p interface{}, name string, shorthand str
 	fs.hooksMutex.RLock()
 	defer fs.hooksMutex.RUnlock()
 	for _, hook := range fs.hooks {
-		if hook != nil {
-			if err := hook(fs, fn, p, name, shorthand, value, usage); err != nil {
+		if hook.Hook != nil {
+			if err := hook.Hook(fs, fn, p, name, shorthand, value, usage, hook.User); err != nil {
 				if _, ok := err.(ErrCancel); ok {
 					cancel = true
 				} else {
