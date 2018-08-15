@@ -6,7 +6,7 @@ type FlagSet struct {
 	NoCount
 	NoCountP
 	NoP
-	flag.FlagSet
+	*flag.FlagSet
 }
 
 // Usage
