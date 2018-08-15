@@ -2,7 +2,7 @@ package flagger
 
 import flag "github.com/ogier/pflag"
 
-type FlagSet struct {
+type PFlagSet struct {
 	NoCount
 	NoCountP
 	flag.FlagSet
@@ -10,11 +10,11 @@ type FlagSet struct {
 
 // Usage
 
-func (fs *FlagSet) Usage() interface{} {
+func (fs *PFlagSet) Usage() interface{} {
 	flag.Usage()
 	return nil
 }
 
-func (fs *FlagSet) SetUsage(cb func(interface{}) interface{}, user interface{}, flbk func()) {
+func (fs *PFlagSet) SetUsage(cb func(interface{}) interface{}, user interface{}, flbk func()) {
 	flag.Usage = flbk
 }
