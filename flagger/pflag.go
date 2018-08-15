@@ -3,6 +3,7 @@ package flagger
 import flag "github.com/ogier/pflag"
 
 type PFlagSet struct {
+	Common
 	NoCount
 	NoCountP
 	NoInt16
