@@ -1,2 +1,2 @@
-// import "github.com/amy911/flag911/flag"
+// import "github.com/suite911/flag911/flag"
 package flag
