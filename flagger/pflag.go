@@ -5,6 +5,8 @@ import flag "github.com/ogier/pflag"
 type PFlagSet struct {
 	NoCount
 	NoCountP
+	NoInt16
+	NoInt16P
 	*flag.FlagSet
 }
 
