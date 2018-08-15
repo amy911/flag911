@@ -16,18 +16,16 @@ type hookWrap struct {
 
 type FlagSet struct {
 	Impl       interface{}
-	User       []interface{}
 	hooks      map[string]hookWrap
 	hooksMutex sync.RWMutex
 }
 
-func New(impl interface{}, user ...interface{}) *FlagSet {
-	return new(FlagSet).Init(impl, user...)
+func New(impl interface{}) *FlagSet {
+	return new(FlagSet).Init(impl)
 }
 
-func (fs *FlagSet) Init(impl interface{}, user ...interface{}) *FlagSet {
+func (fs *FlagSet) Init(impl interface{}) *FlagSet {
 	fs.Impl = impl
-	fs.User = user
 	fs.hooks = make(map[string]hookWrap)
 	return fs
 }
