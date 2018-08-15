@@ -6,6 +6,23 @@ import (
 	pkgErrors "github.com/pkg/errors"
 )
 
+var Cancel ErrCancel
+
+type ErrCancel struct {
+}
+
+func NewErrCancel() error {
+	return new(ErrCancel).Init()
+}
+
+func (err *ErrCancel) Init() error {
+	return err
+}
+
+func (err ErrCancel) Error() string {
+	return "Operation canceled"
+}
+
 type ErrNotSupported struct {
 	err error
 }
