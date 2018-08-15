@@ -3,6 +3,7 @@ package flagger
 import "flag"
 
 type FlagSet struct {
+	Common
 	NoCount
 	NoCountP
 	NoP
