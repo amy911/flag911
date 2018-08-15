@@ -12,11 +12,15 @@ type PFlagSet struct {
 
 // Usage
 
-func (fs *PFlagSet) Usage() interface{} {
+func (fs PFlagSet) Usage() interface{} {
 	flag.Usage()
 	return nil
 }
 
-func (fs *PFlagSet) SetUsage(cb func(interface{}) interface{}, user interface{}, flbk func()) {
+func (fs PFlagSet) SetUsage(cb func(interface{}) interface{}, user interface{}, flbk func()) {
 	flag.Usage = flbk
+}
+
+func (fs PFlagSet) PVersionsWork() bool {
+	return true
 }
