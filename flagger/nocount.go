@@ -9,10 +9,10 @@ func (fs NoCount) CountWorks() bool {
 
 // Count
 
-func (fs NoCount) Count(name string, value int, usage string) *int {
+func (fs *NoCount) Count(name string, value int, usage string) *int {
 	panic(NewErrNotSupported())
 }
 
-func (fs NoCount) CountVar(p *int, name string, value int, usage string) {
+func (fs *NoCount) CountVar(p *int, name string, value int, usage string) {
 	panic(NewErrNotSupported())
 }
