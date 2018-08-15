@@ -3,6 +3,7 @@ package flagger
 import flag "github.com/spf13/pflag"
 
 type SPF13FlagSet struct {
+	Common
 	NoCount
 	NoCountP
 	NoInt16
