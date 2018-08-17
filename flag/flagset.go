@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/suite911/error911"
+	"github.com/suite911/term911/vt"
 
 	ogier_pflag "github.com/ogier/pflag"
 	spf13_pflag "github.com/spf13/pflag"
@@ -112,29 +113,29 @@ func (fs *FlagSet) PrettyPrintDefaults() {
 }
 
 func prettyPrintDefault_golang_flag(flag *golang_flag.Flag) {
-	prettyPrintDefault(flag.Name, flag.Shorthand, golang_flag.UnquoteUsage(flag), flag.DefValue, flag.Value)
+	fmt.Fprintf(os.Stderr, prettyPrintDefault(flag.Name, flag.Shorthand, golang_flag.UnquoteUsage(flag), flag.DefValue, flag.Value), vt.SafeNewLine)
 }
 
 func prettyPrintDefault_ogier_pflag(flag *ogier_pflag.Flag) {
-	prettyPrintDefault(flag.Name, flag.Shorthand, ogier_pflag.UnquoteUsage(flag), flag.DefValue, flag.Value)
+	fmt.Fprintf(os.Stderr, prettyPrintDefault(flag.Name, flag.Shorthand, ogier_pflag.UnquoteUsage(flag), flag.DefValue, flag.Value), vt.SafeNewLine)
 }
 
 func prettyPrintDefault_spf13_pflag(flag *spf13_pflag.Flag) {
-	prettyPrintDefault(flag.Name, flag.Shorthand, spf13_pflag.UnquoteUsage(flag), flag.DefValue, flag.Value)
+	fmt.Fprintf(os.Stderr, prettyPrintDefault(flag.Name, flag.Shorthand, spf13_pflag.UnquoteUsage(flag), flag.DefValue, flag.Value), vt.SafeNewLine)
 }
 
-func prettyPrintDefault(name, shorthand, uName, uUsage, defValue string, value interface{}) {
+func prettyPrintDefault(name, shorthand, typeName, usage, defValue string, value interface{}) string {
 	var s string
 	if len(shorthand) > 0 {
-		s = "  -" + shorthand + ", --" + name
+		s = "  " + vt.SafeB("-"+shorthand) + ", " + vt.SafeB("--"+name)
 	} else {
-		s = "  --" + name
+		s = "  " + vt.SafeB("--"+name)
 	}
-	if len(uName) > 0 {
-		s += " " + uName
+	if len(typeName) > 0 {
+		s += " " + vt.SafeU(typeName)
 	}
-	s += "\n    \t"
-	s += uUsage
+	s += vt.SafeNewLine + "    \t"
+	s += usage
 	if !IsZeroValue(defValue) {
 		if reflect.TypeOf(value).Kind() == reflect.String {
 			s += fmt.Sprintf(" (default %q)", defValue)
@@ -142,7 +143,7 @@ func prettyPrintDefault(name, shorthand, uName, uUsage, defValue string, value i
 			s += fmt.Sprintf(" (default %v)", defValue)
 		}
 	}
-	fmt.Fprintf(os.Stderr, s, "\n")
+	return s
 }
 
 // Standard
