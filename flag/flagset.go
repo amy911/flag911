@@ -6,6 +6,8 @@ import (
 	"os"
 	"sync"
 	"time"
+
+	"github.com/suite911/error911"
 )
 
 type Hook func(fs *FlagSet, fn string, p interface{}, name string, shorthand string, value interface{}, usage string, user []interface{}) error
@@ -80,7 +82,7 @@ func (fs *FlagSet) Parse(arguments []string) error {
 	if f, ok := fs.Impl.(interface{ Parse([]string) error }); ok {
 		return f.Parse(arguments)
 	}
-	panic(NewErrNotSupported("Parse"))
+	panic(error911.NewNotSupported("Parse"))
 }
 
 // Usage
@@ -163,7 +165,7 @@ func (fs *FlagSet) Bool(name string, value bool, usage string) *bool {
 	}); ok {
 		return f.Bool(name, value, usage)
 	}
-	panic(NewErrNotSupported("Bool"))
+	panic(error911.NewNotSupported("Bool"))
 }
 func (fs *FlagSet) BoolP(name string, shorthand string, value bool, usage string) *bool {
 	if fs.runHooks("BoolP", nil, name, shorthand, value, usage) {
@@ -178,7 +180,7 @@ func (fs *FlagSet) BoolP(name string, shorthand string, value bool, usage string
 	}); ok {
 		return f.Bool(name, value, usage)
 	}
-	panic(NewErrNotSupported("BoolP"))
+	panic(error911.NewNotSupported("BoolP"))
 }
 func (fs *FlagSet) BoolVar(p *bool, name string, value bool, usage string) {
 	if fs.runHooks("BoolVar", p, name, "", value, usage) {
@@ -190,7 +192,7 @@ func (fs *FlagSet) BoolVar(p *bool, name string, value bool, usage string) {
 		f.BoolVar(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("BoolVar"))
+	panic(error911.NewNotSupported("BoolVar"))
 }
 func (fs *FlagSet) BoolVarP(p *bool, name string, shorthand string, value bool, usage string) {
 	if fs.runHooks("BoolVarP", p, name, shorthand, value, usage) {
@@ -207,7 +209,7 @@ func (fs *FlagSet) BoolVarP(p *bool, name string, shorthand string, value bool, 
 		f.BoolVar(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("BoolVarP"))
+	panic(error911.NewNotSupported("BoolVarP"))
 }
 
 // Count
@@ -221,7 +223,7 @@ func (fs *FlagSet) Count(name string, value int, usage string) *int {
 	}); ok {
 		return f.Count(name, value, usage)
 	}
-	panic(NewErrNotSupported("Count"))
+	panic(error911.NewNotSupported("Count"))
 }
 func (fs *FlagSet) CountP(name string, shorthand string, value int, usage string) *int {
 	if fs.runHooks("CountP", nil, name, shorthand, value, usage) {
@@ -236,7 +238,7 @@ func (fs *FlagSet) CountP(name string, shorthand string, value int, usage string
 	}); ok {
 		return f.Count(name, value, usage)
 	}
-	panic(NewErrNotSupported("CountP"))
+	panic(error911.NewNotSupported("CountP"))
 }
 func (fs *FlagSet) CountVar(p *int, name string, value int, usage string) {
 	if fs.runHooks("CountVar", p, name, "", value, usage) {
@@ -248,7 +250,7 @@ func (fs *FlagSet) CountVar(p *int, name string, value int, usage string) {
 		f.CountVar(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("CountVar"))
+	panic(error911.NewNotSupported("CountVar"))
 }
 func (fs *FlagSet) CountVarP(p *int, name string, shorthand string, value int, usage string) {
 	if fs.runHooks("CountVarP", p, name, shorthand, value, usage) {
@@ -265,7 +267,7 @@ func (fs *FlagSet) CountVarP(p *int, name string, shorthand string, value int, u
 		f.CountVar(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("CountVarP"))
+	panic(error911.NewNotSupported("CountVarP"))
 }
 
 // Duration
@@ -279,7 +281,7 @@ func (fs *FlagSet) Duration(name string, value time.Duration, usage string) *tim
 	}); ok {
 		return f.Duration(name, value, usage)
 	}
-	panic(NewErrNotSupported("Duration"))
+	panic(error911.NewNotSupported("Duration"))
 }
 func (fs *FlagSet) DurationP(name string, shorthand string, value time.Duration, usage string) *time.Duration {
 	if fs.runHooks("DurationP", nil, name, shorthand, value, usage) {
@@ -294,7 +296,7 @@ func (fs *FlagSet) DurationP(name string, shorthand string, value time.Duration,
 	}); ok {
 		return f.Duration(name, value, usage)
 	}
-	panic(NewErrNotSupported("DurationP"))
+	panic(error911.NewNotSupported("DurationP"))
 }
 func (fs *FlagSet) DurationVar(p *time.Duration, name string, value time.Duration, usage string) {
 	if fs.runHooks("DurationVar", p, name, "", value, usage) {
@@ -306,7 +308,7 @@ func (fs *FlagSet) DurationVar(p *time.Duration, name string, value time.Duratio
 		f.DurationVar(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("DurationVar"))
+	panic(error911.NewNotSupported("DurationVar"))
 }
 func (fs *FlagSet) DurationVarP(p *time.Duration, name string, shorthand string, value time.Duration, usage string) {
 	if fs.runHooks("DurationVarP", p, name, shorthand, value, usage) {
@@ -323,7 +325,7 @@ func (fs *FlagSet) DurationVarP(p *time.Duration, name string, shorthand string,
 		f.DurationVar(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("DurationVarP"))
+	panic(error911.NewNotSupported("DurationVarP"))
 }
 
 // Float32
@@ -337,7 +339,7 @@ func (fs *FlagSet) Float32(name string, value float32, usage string) *float32 {
 	}); ok {
 		return f.Float32(name, value, usage)
 	}
-	panic(NewErrNotSupported("Float32"))
+	panic(error911.NewNotSupported("Float32"))
 }
 func (fs *FlagSet) Float32P(name string, shorthand string, value float32, usage string) *float32 {
 	if fs.runHooks("Float32P", nil, name, shorthand, value, usage) {
@@ -352,7 +354,7 @@ func (fs *FlagSet) Float32P(name string, shorthand string, value float32, usage 
 	}); ok {
 		return f.Float32(name, value, usage)
 	}
-	panic(NewErrNotSupported("Float32P"))
+	panic(error911.NewNotSupported("Float32P"))
 }
 func (fs *FlagSet) Float32Var(p *float32, name string, value float32, usage string) {
 	if fs.runHooks("Float32Var", p, name, "", value, usage) {
@@ -364,7 +366,7 @@ func (fs *FlagSet) Float32Var(p *float32, name string, value float32, usage stri
 		f.Float32Var(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("Float32Var"))
+	panic(error911.NewNotSupported("Float32Var"))
 }
 func (fs *FlagSet) Float32VarP(p *float32, name string, shorthand string, value float32, usage string) {
 	if fs.runHooks("Float32VarP", p, name, shorthand, value, usage) {
@@ -381,7 +383,7 @@ func (fs *FlagSet) Float32VarP(p *float32, name string, shorthand string, value 
 		f.Float32Var(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("Float32VarP"))
+	panic(error911.NewNotSupported("Float32VarP"))
 }
 
 // Float64
@@ -395,7 +397,7 @@ func (fs *FlagSet) Float64(name string, value float64, usage string) *float64 {
 	}); ok {
 		return f.Float64(name, value, usage)
 	}
-	panic(NewErrNotSupported("Float64"))
+	panic(error911.NewNotSupported("Float64"))
 }
 func (fs *FlagSet) Float64P(name string, shorthand string, value float64, usage string) *float64 {
 	if fs.runHooks("Float64P", nil, name, shorthand, value, usage) {
@@ -410,7 +412,7 @@ func (fs *FlagSet) Float64P(name string, shorthand string, value float64, usage 
 	}); ok {
 		return f.Float64(name, value, usage)
 	}
-	panic(NewErrNotSupported("Float64P"))
+	panic(error911.NewNotSupported("Float64P"))
 }
 func (fs *FlagSet) Float64Var(p *float64, name string, value float64, usage string) {
 	if fs.runHooks("Float64Var", p, name, "", value, usage) {
@@ -422,7 +424,7 @@ func (fs *FlagSet) Float64Var(p *float64, name string, value float64, usage stri
 		f.Float64Var(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("Float64Var"))
+	panic(error911.NewNotSupported("Float64Var"))
 }
 func (fs *FlagSet) Float64VarP(p *float64, name string, shorthand string, value float64, usage string) {
 	if fs.runHooks("Float64VarP", p, name, shorthand, value, usage) {
@@ -439,7 +441,7 @@ func (fs *FlagSet) Float64VarP(p *float64, name string, shorthand string, value 
 		f.Float64Var(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("Float64VarP"))
+	panic(error911.NewNotSupported("Float64VarP"))
 }
 
 // Int
@@ -453,7 +455,7 @@ func (fs *FlagSet) Int(name string, value int, usage string) *int {
 	}); ok {
 		return f.Int(name, value, usage)
 	}
-	panic(NewErrNotSupported("Int"))
+	panic(error911.NewNotSupported("Int"))
 }
 func (fs *FlagSet) IntP(name string, shorthand string, value int, usage string) *int {
 	if fs.runHooks("IntP", nil, name, shorthand, value, usage) {
@@ -468,7 +470,7 @@ func (fs *FlagSet) IntP(name string, shorthand string, value int, usage string) 
 	}); ok {
 		return f.Int(name, value, usage)
 	}
-	panic(NewErrNotSupported("IntP"))
+	panic(error911.NewNotSupported("IntP"))
 }
 func (fs *FlagSet) IntVar(p *int, name string, value int, usage string) {
 	if fs.runHooks("IntVar", p, name, "", value, usage) {
@@ -480,7 +482,7 @@ func (fs *FlagSet) IntVar(p *int, name string, value int, usage string) {
 		f.IntVar(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("IntVar"))
+	panic(error911.NewNotSupported("IntVar"))
 }
 func (fs *FlagSet) IntVarP(p *int, name string, shorthand string, value int, usage string) {
 	if fs.runHooks("IntVarP", p, name, shorthand, value, usage) {
@@ -497,7 +499,7 @@ func (fs *FlagSet) IntVarP(p *int, name string, shorthand string, value int, usa
 		f.IntVar(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("IntVarP"))
+	panic(error911.NewNotSupported("IntVarP"))
 }
 
 // Int8
@@ -511,7 +513,7 @@ func (fs *FlagSet) Int8(name string, value int8, usage string) *int8 {
 	}); ok {
 		return f.Int8(name, value, usage)
 	}
-	panic(NewErrNotSupported("Int8"))
+	panic(error911.NewNotSupported("Int8"))
 }
 func (fs *FlagSet) Int8P(name string, shorthand string, value int8, usage string) *int8 {
 	if fs.runHooks("Int8P", nil, name, shorthand, value, usage) {
@@ -526,7 +528,7 @@ func (fs *FlagSet) Int8P(name string, shorthand string, value int8, usage string
 	}); ok {
 		return f.Int8(name, value, usage)
 	}
-	panic(NewErrNotSupported("Int8P"))
+	panic(error911.NewNotSupported("Int8P"))
 }
 func (fs *FlagSet) Int8Var(p *int8, name string, value int8, usage string) {
 	if fs.runHooks("Int8Var", p, name, "", value, usage) {
@@ -538,7 +540,7 @@ func (fs *FlagSet) Int8Var(p *int8, name string, value int8, usage string) {
 		f.Int8Var(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("Int8Var"))
+	panic(error911.NewNotSupported("Int8Var"))
 }
 func (fs *FlagSet) Int8VarP(p *int8, name string, shorthand string, value int8, usage string) {
 	if fs.runHooks("Int8VarP", p, name, shorthand, value, usage) {
@@ -555,7 +557,7 @@ func (fs *FlagSet) Int8VarP(p *int8, name string, shorthand string, value int8, 
 		f.Int8Var(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("Int8VarP"))
+	panic(error911.NewNotSupported("Int8VarP"))
 }
 
 // Int16
@@ -569,7 +571,7 @@ func (fs *FlagSet) Int16(name string, value int16, usage string) *int16 {
 	}); ok {
 		return f.Int16(name, value, usage)
 	}
-	panic(NewErrNotSupported("Int16"))
+	panic(error911.NewNotSupported("Int16"))
 }
 func (fs *FlagSet) Int16P(name string, shorthand string, value int16, usage string) *int16 {
 	if fs.runHooks("Int16P", nil, name, shorthand, value, usage) {
@@ -584,7 +586,7 @@ func (fs *FlagSet) Int16P(name string, shorthand string, value int16, usage stri
 	}); ok {
 		return f.Int16(name, value, usage)
 	}
-	panic(NewErrNotSupported("Int16P"))
+	panic(error911.NewNotSupported("Int16P"))
 }
 func (fs *FlagSet) Int16Var(p *int16, name string, value int16, usage string) {
 	if fs.runHooks("Int16Var", p, name, "", value, usage) {
@@ -596,7 +598,7 @@ func (fs *FlagSet) Int16Var(p *int16, name string, value int16, usage string) {
 		f.Int16Var(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("Int16Var"))
+	panic(error911.NewNotSupported("Int16Var"))
 }
 func (fs *FlagSet) Int16VarP(p *int16, name string, shorthand string, value int16, usage string) {
 	if fs.runHooks("Int16VarP", p, name, shorthand, value, usage) {
@@ -613,7 +615,7 @@ func (fs *FlagSet) Int16VarP(p *int16, name string, shorthand string, value int1
 		f.Int16Var(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("Int16VarP"))
+	panic(error911.NewNotSupported("Int16VarP"))
 }
 
 // Int32
@@ -627,7 +629,7 @@ func (fs *FlagSet) Int32(name string, value int32, usage string) *int32 {
 	}); ok {
 		return f.Int32(name, value, usage)
 	}
-	panic(NewErrNotSupported("Int32"))
+	panic(error911.NewNotSupported("Int32"))
 }
 func (fs *FlagSet) Int32P(name string, shorthand string, value int32, usage string) *int32 {
 	if fs.runHooks("Int32P", nil, name, shorthand, value, usage) {
@@ -642,7 +644,7 @@ func (fs *FlagSet) Int32P(name string, shorthand string, value int32, usage stri
 	}); ok {
 		return f.Int32(name, value, usage)
 	}
-	panic(NewErrNotSupported("Int32P"))
+	panic(error911.NewNotSupported("Int32P"))
 }
 func (fs *FlagSet) Int32Var(p *int32, name string, value int32, usage string) {
 	if fs.runHooks("Int32Var", p, name, "", value, usage) {
@@ -654,7 +656,7 @@ func (fs *FlagSet) Int32Var(p *int32, name string, value int32, usage string) {
 		f.Int32Var(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("Int32Var"))
+	panic(error911.NewNotSupported("Int32Var"))
 }
 func (fs *FlagSet) Int32VarP(p *int32, name string, shorthand string, value int32, usage string) {
 	if fs.runHooks("Int32VarP", p, name, shorthand, value, usage) {
@@ -671,7 +673,7 @@ func (fs *FlagSet) Int32VarP(p *int32, name string, shorthand string, value int3
 		f.Int32Var(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("Int32VarP"))
+	panic(error911.NewNotSupported("Int32VarP"))
 }
 
 // Int64
@@ -685,7 +687,7 @@ func (fs *FlagSet) Int64(name string, value int64, usage string) *int64 {
 	}); ok {
 		return f.Int64(name, value, usage)
 	}
-	panic(NewErrNotSupported("Int64"))
+	panic(error911.NewNotSupported("Int64"))
 }
 func (fs *FlagSet) Int64P(name string, shorthand string, value int64, usage string) *int64 {
 	if fs.runHooks("Int64P", nil, name, shorthand, value, usage) {
@@ -700,7 +702,7 @@ func (fs *FlagSet) Int64P(name string, shorthand string, value int64, usage stri
 	}); ok {
 		return f.Int64(name, value, usage)
 	}
-	panic(NewErrNotSupported("Int64P"))
+	panic(error911.NewNotSupported("Int64P"))
 }
 func (fs *FlagSet) Int64Var(p *int64, name string, value int64, usage string) {
 	if fs.runHooks("Int64Var", p, name, "", value, usage) {
@@ -712,7 +714,7 @@ func (fs *FlagSet) Int64Var(p *int64, name string, value int64, usage string) {
 		f.Int64Var(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("Int64Var"))
+	panic(error911.NewNotSupported("Int64Var"))
 }
 func (fs *FlagSet) Int64VarP(p *int64, name string, shorthand string, value int64, usage string) {
 	if fs.runHooks("Int64VarP", p, name, shorthand, value, usage) {
@@ -729,7 +731,7 @@ func (fs *FlagSet) Int64VarP(p *int64, name string, shorthand string, value int6
 		f.Int64Var(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("Int64VarP"))
+	panic(error911.NewNotSupported("Int64VarP"))
 }
 
 // IP
@@ -743,7 +745,7 @@ func (fs *FlagSet) IP(name string, value net.IP, usage string) *net.IP {
 	}); ok {
 		return f.IP(name, value, usage)
 	}
-	panic(NewErrNotSupported("IP"))
+	panic(error911.NewNotSupported("IP"))
 }
 func (fs *FlagSet) IPP(name string, shorthand string, value net.IP, usage string) *net.IP {
 	if fs.runHooks("IPP", nil, name, shorthand, value, usage) {
@@ -758,7 +760,7 @@ func (fs *FlagSet) IPP(name string, shorthand string, value net.IP, usage string
 	}); ok {
 		return f.IP(name, value, usage)
 	}
-	panic(NewErrNotSupported("IPP"))
+	panic(error911.NewNotSupported("IPP"))
 }
 func (fs *FlagSet) IPVar(p *net.IP, name string, value net.IP, usage string) {
 	if fs.runHooks("IPVar", p, name, "", value, usage) {
@@ -770,7 +772,7 @@ func (fs *FlagSet) IPVar(p *net.IP, name string, value net.IP, usage string) {
 		f.IPVar(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("IPVar"))
+	panic(error911.NewNotSupported("IPVar"))
 }
 func (fs *FlagSet) IPVarP(p *net.IP, name string, shorthand string, value net.IP, usage string) {
 	if fs.runHooks("IPVarP", p, name, shorthand, value, usage) {
@@ -787,7 +789,7 @@ func (fs *FlagSet) IPVarP(p *net.IP, name string, shorthand string, value net.IP
 		f.IPVar(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("IPVarP"))
+	panic(error911.NewNotSupported("IPVarP"))
 }
 
 // IPMask
@@ -801,7 +803,7 @@ func (fs *FlagSet) IPMask(name string, value net.IPMask, usage string) *net.IPMa
 	}); ok {
 		return f.IPMask(name, value, usage)
 	}
-	panic(NewErrNotSupported("IPMask"))
+	panic(error911.NewNotSupported("IPMask"))
 }
 func (fs *FlagSet) IPMaskP(name string, shorthand string, value net.IPMask, usage string) *net.IPMask {
 	if fs.runHooks("IPMaskP", nil, name, shorthand, value, usage) {
@@ -816,7 +818,7 @@ func (fs *FlagSet) IPMaskP(name string, shorthand string, value net.IPMask, usag
 	}); ok {
 		return f.IPMask(name, value, usage)
 	}
-	panic(NewErrNotSupported("IPMaskP"))
+	panic(error911.NewNotSupported("IPMaskP"))
 }
 func (fs *FlagSet) IPMaskVar(p *net.IPMask, name string, value net.IPMask, usage string) {
 	if fs.runHooks("IPMaskVar", p, name, "", value, usage) {
@@ -828,7 +830,7 @@ func (fs *FlagSet) IPMaskVar(p *net.IPMask, name string, value net.IPMask, usage
 		f.IPMaskVar(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("IPMaskVar"))
+	panic(error911.NewNotSupported("IPMaskVar"))
 }
 func (fs *FlagSet) IPMaskVarP(p *net.IPMask, name string, shorthand string, value net.IPMask, usage string) {
 	if fs.runHooks("IPMaskVarP", p, name, shorthand, value, usage) {
@@ -845,7 +847,7 @@ func (fs *FlagSet) IPMaskVarP(p *net.IPMask, name string, shorthand string, valu
 		f.IPMaskVar(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("IPMaskVarP"))
+	panic(error911.NewNotSupported("IPMaskVarP"))
 }
 
 // String
@@ -859,7 +861,7 @@ func (fs *FlagSet) String(name string, value string, usage string) *string {
 	}); ok {
 		return f.String(name, value, usage)
 	}
-	panic(NewErrNotSupported("String"))
+	panic(error911.NewNotSupported("String"))
 }
 func (fs *FlagSet) StringP(name string, shorthand string, value string, usage string) *string {
 	if fs.runHooks("StringP", nil, name, shorthand, value, usage) {
@@ -874,7 +876,7 @@ func (fs *FlagSet) StringP(name string, shorthand string, value string, usage st
 	}); ok {
 		return f.String(name, value, usage)
 	}
-	panic(NewErrNotSupported("StringP"))
+	panic(error911.NewNotSupported("StringP"))
 }
 func (fs *FlagSet) StringVar(p *string, name string, value string, usage string) {
 	if fs.runHooks("StringVar", p, name, "", value, usage) {
@@ -886,7 +888,7 @@ func (fs *FlagSet) StringVar(p *string, name string, value string, usage string)
 		f.StringVar(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("StringVar"))
+	panic(error911.NewNotSupported("StringVar"))
 }
 func (fs *FlagSet) StringVarP(p *string, name string, shorthand string, value string, usage string) {
 	if fs.runHooks("StringVarP", p, name, shorthand, value, usage) {
@@ -903,7 +905,7 @@ func (fs *FlagSet) StringVarP(p *string, name string, shorthand string, value st
 		f.StringVar(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("StringVarP"))
+	panic(error911.NewNotSupported("StringVarP"))
 }
 
 // Time
@@ -917,7 +919,7 @@ func (fs *FlagSet) Time(name string, value time.Time, usage string) *time.Time {
 	}); ok {
 		return f.Time(name, value, usage)
 	}
-	panic(NewErrNotSupported("Time"))
+	panic(error911.NewNotSupported("Time"))
 }
 func (fs *FlagSet) TimeP(name string, shorthand string, value time.Time, usage string) *time.Time {
 	if fs.runHooks("TimeP", nil, name, shorthand, value, usage) {
@@ -932,7 +934,7 @@ func (fs *FlagSet) TimeP(name string, shorthand string, value time.Time, usage s
 	}); ok {
 		return f.Time(name, value, usage)
 	}
-	panic(NewErrNotSupported("TimeP"))
+	panic(error911.NewNotSupported("TimeP"))
 }
 func (fs *FlagSet) TimeVar(p *time.Time, name string, value time.Time, usage string) {
 	if fs.runHooks("TimeVar", p, name, "", value, usage) {
@@ -944,7 +946,7 @@ func (fs *FlagSet) TimeVar(p *time.Time, name string, value time.Time, usage str
 		f.TimeVar(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("TimeVar"))
+	panic(error911.NewNotSupported("TimeVar"))
 }
 func (fs *FlagSet) TimeVarP(p *time.Time, name string, shorthand string, value time.Time, usage string) {
 	if fs.runHooks("TimeVarP", p, name, shorthand, value, usage) {
@@ -961,7 +963,7 @@ func (fs *FlagSet) TimeVarP(p *time.Time, name string, shorthand string, value t
 		f.TimeVar(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("TimeVarP"))
+	panic(error911.NewNotSupported("TimeVarP"))
 }
 
 // Uint
@@ -975,7 +977,7 @@ func (fs *FlagSet) Uint(name string, value uint, usage string) *uint {
 	}); ok {
 		return f.Uint(name, value, usage)
 	}
-	panic(NewErrNotSupported("Uint"))
+	panic(error911.NewNotSupported("Uint"))
 }
 func (fs *FlagSet) UintP(name string, shorthand string, value uint, usage string) *uint {
 	if fs.runHooks("UintP", nil, name, shorthand, value, usage) {
@@ -990,7 +992,7 @@ func (fs *FlagSet) UintP(name string, shorthand string, value uint, usage string
 	}); ok {
 		return f.Uint(name, value, usage)
 	}
-	panic(NewErrNotSupported("UintP"))
+	panic(error911.NewNotSupported("UintP"))
 }
 func (fs *FlagSet) UintVar(p *uint, name string, value uint, usage string) {
 	if fs.runHooks("UintVar", p, name, "", value, usage) {
@@ -1002,7 +1004,7 @@ func (fs *FlagSet) UintVar(p *uint, name string, value uint, usage string) {
 		f.UintVar(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("UintVar"))
+	panic(error911.NewNotSupported("UintVar"))
 }
 func (fs *FlagSet) UintVarP(p *uint, name string, shorthand string, value uint, usage string) {
 	if fs.runHooks("UintVarP", p, name, shorthand, value, usage) {
@@ -1019,7 +1021,7 @@ func (fs *FlagSet) UintVarP(p *uint, name string, shorthand string, value uint, 
 		f.UintVar(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("UintVarP"))
+	panic(error911.NewNotSupported("UintVarP"))
 }
 
 // Uint8
@@ -1033,7 +1035,7 @@ func (fs *FlagSet) Uint8(name string, value uint8, usage string) *uint8 {
 	}); ok {
 		return f.Uint8(name, value, usage)
 	}
-	panic(NewErrNotSupported("Uint8"))
+	panic(error911.NewNotSupported("Uint8"))
 }
 func (fs *FlagSet) Uint8P(name string, shorthand string, value uint8, usage string) *uint8 {
 	if fs.runHooks("Uint8P", nil, name, shorthand, value, usage) {
@@ -1048,7 +1050,7 @@ func (fs *FlagSet) Uint8P(name string, shorthand string, value uint8, usage stri
 	}); ok {
 		return f.Uint8(name, value, usage)
 	}
-	panic(NewErrNotSupported("Uint8P"))
+	panic(error911.NewNotSupported("Uint8P"))
 }
 func (fs *FlagSet) Uint8Var(p *uint8, name string, value uint8, usage string) {
 	if fs.runHooks("Uint8Var", p, name, "", value, usage) {
@@ -1060,7 +1062,7 @@ func (fs *FlagSet) Uint8Var(p *uint8, name string, value uint8, usage string) {
 		f.Uint8Var(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("Uint8Var"))
+	panic(error911.NewNotSupported("Uint8Var"))
 }
 func (fs *FlagSet) Uint8VarP(p *uint8, name string, shorthand string, value uint8, usage string) {
 	if fs.runHooks("Uint8VarP", p, name, shorthand, value, usage) {
@@ -1077,7 +1079,7 @@ func (fs *FlagSet) Uint8VarP(p *uint8, name string, shorthand string, value uint
 		f.Uint8Var(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("Uint8VarP"))
+	panic(error911.NewNotSupported("Uint8VarP"))
 }
 
 // Uint16
@@ -1091,7 +1093,7 @@ func (fs *FlagSet) Uint16(name string, value uint16, usage string) *uint16 {
 	}); ok {
 		return f.Uint16(name, value, usage)
 	}
-	panic(NewErrNotSupported("Uint16"))
+	panic(error911.NewNotSupported("Uint16"))
 }
 func (fs *FlagSet) Uint16P(name string, shorthand string, value uint16, usage string) *uint16 {
 	if fs.runHooks("Uint16P", nil, name, shorthand, value, usage) {
@@ -1106,7 +1108,7 @@ func (fs *FlagSet) Uint16P(name string, shorthand string, value uint16, usage st
 	}); ok {
 		return f.Uint16(name, value, usage)
 	}
-	panic(NewErrNotSupported("Uint16P"))
+	panic(error911.NewNotSupported("Uint16P"))
 }
 func (fs *FlagSet) Uint16Var(p *uint16, name string, value uint16, usage string) {
 	if fs.runHooks("Uint16Var", p, name, "", value, usage) {
@@ -1118,7 +1120,7 @@ func (fs *FlagSet) Uint16Var(p *uint16, name string, value uint16, usage string)
 		f.Uint16Var(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("Uint16Var"))
+	panic(error911.NewNotSupported("Uint16Var"))
 }
 func (fs *FlagSet) Uint16VarP(p *uint16, name string, shorthand string, value uint16, usage string) {
 	if fs.runHooks("Uint16VarP", p, name, shorthand, value, usage) {
@@ -1135,7 +1137,7 @@ func (fs *FlagSet) Uint16VarP(p *uint16, name string, shorthand string, value ui
 		f.Uint16Var(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("Uint16VarP"))
+	panic(error911.NewNotSupported("Uint16VarP"))
 }
 
 // Uint32
@@ -1149,7 +1151,7 @@ func (fs *FlagSet) Uint32(name string, value uint32, usage string) *uint32 {
 	}); ok {
 		return f.Uint32(name, value, usage)
 	}
-	panic(NewErrNotSupported("Uint32"))
+	panic(error911.NewNotSupported("Uint32"))
 }
 func (fs *FlagSet) Uint32P(name string, shorthand string, value uint32, usage string) *uint32 {
 	if fs.runHooks("Uint32P", nil, name, shorthand, value, usage) {
@@ -1164,7 +1166,7 @@ func (fs *FlagSet) Uint32P(name string, shorthand string, value uint32, usage st
 	}); ok {
 		return f.Uint32(name, value, usage)
 	}
-	panic(NewErrNotSupported("Uint32P"))
+	panic(error911.NewNotSupported("Uint32P"))
 }
 func (fs *FlagSet) Uint32Var(p *uint32, name string, value uint32, usage string) {
 	if fs.runHooks("Uint32Var", p, name, "", value, usage) {
@@ -1176,7 +1178,7 @@ func (fs *FlagSet) Uint32Var(p *uint32, name string, value uint32, usage string)
 		f.Uint32Var(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("Uint32Var"))
+	panic(error911.NewNotSupported("Uint32Var"))
 }
 func (fs *FlagSet) Uint32VarP(p *uint32, name string, shorthand string, value uint32, usage string) {
 	if fs.runHooks("Uint32VarP", p, name, shorthand, value, usage) {
@@ -1193,7 +1195,7 @@ func (fs *FlagSet) Uint32VarP(p *uint32, name string, shorthand string, value ui
 		f.Uint32Var(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("Uint32VarP"))
+	panic(error911.NewNotSupported("Uint32VarP"))
 }
 
 // Uint64
@@ -1207,7 +1209,7 @@ func (fs *FlagSet) Uint64(name string, value uint64, usage string) *uint64 {
 	}); ok {
 		return f.Uint64(name, value, usage)
 	}
-	panic(NewErrNotSupported("Uint64"))
+	panic(error911.NewNotSupported("Uint64"))
 }
 func (fs *FlagSet) Uint64P(name string, shorthand string, value uint64, usage string) *uint64 {
 	if fs.runHooks("Uint64P", nil, name, shorthand, value, usage) {
@@ -1222,7 +1224,7 @@ func (fs *FlagSet) Uint64P(name string, shorthand string, value uint64, usage st
 	}); ok {
 		return f.Uint64(name, value, usage)
 	}
-	panic(NewErrNotSupported("Uint64P"))
+	panic(error911.NewNotSupported("Uint64P"))
 }
 func (fs *FlagSet) Uint64Var(p *uint64, name string, value uint64, usage string) {
 	if fs.runHooks("Uint64Var", p, name, "", value, usage) {
@@ -1234,7 +1236,7 @@ func (fs *FlagSet) Uint64Var(p *uint64, name string, value uint64, usage string)
 		f.Uint64Var(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("Uint64Var"))
+	panic(error911.NewNotSupported("Uint64Var"))
 }
 func (fs *FlagSet) Uint64VarP(p *uint64, name string, shorthand string, value uint64, usage string) {
 	if fs.runHooks("Uint64VarP", p, name, shorthand, value, usage) {
@@ -1251,7 +1253,7 @@ func (fs *FlagSet) Uint64VarP(p *uint64, name string, shorthand string, value ui
 		f.Uint64Var(p, name, value, usage)
 		return
 	}
-	panic(NewErrNotSupported("Uint64VarP"))
+	panic(error911.NewNotSupported("Uint64VarP"))
 }
 
 // Internal
@@ -1262,7 +1264,7 @@ func (fs *FlagSet) runHooks(fn string, p interface{}, name string, shorthand str
 	for _, hook := range fs.hooks {
 		if hook.Hook != nil {
 			if err := hook.Hook(fs, fn, p, name, shorthand, value, usage, hook.User); err != nil {
-				if _, ok := err.(ErrCancel); ok {
+				if _, ok := err.(error911.Cancel); ok {
 					cancel = true
 				} else {
 					panic(err)
