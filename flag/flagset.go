@@ -213,7 +213,7 @@ func (fs *FlagSet) Usage(user ...interface{}) error {
 			f()
 		}
 	} else {
-		fs.PrintDefaults()
+		fs.PrettyPrintDefaults()
 	}
 	if text := fs.usageFooter; len(text) > 0 {
 		if _, err := io.WriteString(fs.output, text); err != nil {
