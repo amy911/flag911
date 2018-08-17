@@ -94,20 +94,11 @@ func IsZeroValue(value string) bool {
 func (fs *FlagSet) PrettyPrintDefaults() {
 	switch fs.impl.(type) {
 	case *golang_flag.FlagSet:
-		w := fs.output
-		fs.SetOutput(os.Stderr)
 		fs.impl.(*golang_flag.FlagSet).VisitAll(prettyPrintDefault_golang_flag)
-		fs.SetOutput(w)
 	case *ogier_pflag.FlagSet:
-		w := fs.output
-		fs.SetOutput(os.Stderr)
 		fs.impl.(*ogier_pflag.FlagSet).VisitAll(prettyPrintDefault_ogier_pflag)
-		fs.SetOutput(w)
 	case *spf13_pflag.FlagSet:
-		w := fs.output
-		fs.SetOutput(os.Stderr)
 		fs.impl.(*spf13_pflag.FlagSet).VisitAll(prettyPrintDefault_spf13_pflag)
-		fs.SetOutput(w)
 	default:
 		fs.PrintDefaults()
 	}
