@@ -115,7 +115,7 @@ func (fs *FlagSet) PrettyPrintDefaults() {
 
 func prettyPrintDefault_golang_flag(flag *golang_flag.Flag) {
 	typeName, usage := golang_flag.UnquoteUsage(flag)
-	fmt.Fprintf(os.Stderr, prettyPrintDefault(flag.Name, string{}, typeName, usage, flag.DefValue, flag.Value), vt.SafeNewLine)
+	fmt.Fprintf(os.Stderr, prettyPrintDefault(flag.Name, "", typeName, usage, flag.DefValue, flag.Value), vt.SafeNewLine)
 }
 
 func prettyPrintDefault_ogier_pflag(flag *ogier_pflag.Flag) {
