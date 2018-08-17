@@ -1,13 +1,18 @@
 package flag
 
 import (
+	golang_flag "flag"
 	"io"
 	"net"
 	"os"
+	"reflect"
 	"sync"
 	"time"
 
 	"github.com/suite911/error911"
+
+	ogier_pflag "github.com/ogier/pflag"
+	spf13_pflag "github.com/spf13/pflag"
 )
 
 type Hook func(fs *FlagSet, fn string, p interface{}, name string, shorthand string, value interface{}, usage string, user []interface{}) error
@@ -76,6 +81,68 @@ func (fs *FlagSet) SetHook(key string, hook Hook, user ...interface{}) {
 	fs.hooksMutex.Lock()
 	defer fs.hooksMutex.Unlock()
 	fs.hooks[key] = hookWrap{Hook: hook, User: user}
+}
+
+// Special
+
+func IsZeroValue(value string) bool {
+	return len(value) < 1 || value == "0" || value == "false"
+}
+
+func (fs *FlagSet) PrettyPrintDefaults() {
+	switch fs.impl.(type) {
+	case *golang_flag.FlagSet:
+		w := fs.output
+		fs.SetOutput(os.Stderr)
+		fs.(*golang_flag.FlagSet).VisitAll(prettyPrintDefault_golang_flag)
+		fs.SetOutput(w)
+	case *ogier_pflag.FlagSet:
+		w := fs.output
+		fs.SetOutput(os.Stderr)
+		fs.(*ogier_pflag.FlagSet).VisitAll(prettyPrintDefault_ogier_pflag)
+		fs.SetOutput(w)
+	case *spf13_pflag.FlagSet:
+		w := fs.output
+		fs.SetOutput(os.Stderr)
+		fs.(*spf13_pflag.FlagSet).VisitAll(prettyPrintDefault_spf13_pflag)
+		fs.SetOutput(w)
+	default:
+		fs.PrintDefaults()
+	}
+}
+
+func prettyPrintDefault_golang_flag(flag *golang_flag.Flag) {
+	prettyPrintDefault(flag.Name, flag.Shorthand, golang_flag.UnquoteUsage(flag), flag.DefValue, flag.Value)
+}
+
+func prettyPrintDefault_ogier_pflag(flag *ogier_pflag.Flag) {
+	prettyPrintDefault(flag.Name, flag.Shorthand, ogier_pflag.UnquoteUsage(flag), flag.DefValue, flag.Value)
+}
+
+func prettyPrintDefault_spf13_pflag(flag *spf13_pflag.Flag) {
+	prettyPrintDefault(flag.Name, flag.Shorthand, spf13_pflag.UnquoteUsage(flag), flag.DefValue, flag.Value)
+}
+
+func prettyPrintDefault(name, shorthand, uName, uUsage, defValue string, value interface{}) {
+	var s string
+	if len(shorthand) > 0 {
+		s = "  -" + shorthand + ", --" + name
+	} else {
+		s = "  --" + name
+	}
+	if len(uName) > 0 {
+		s += " " + uName
+	}
+	s += "\n    \t"
+	s += uUsage
+	if !IsZeroValue(defValue) {
+		if reflect.TypeOf(value).Kind() == reflect.String {
+			s += fmt.Sprintf(" (default %q)", defValue)
+		} else {
+			s += fmt.Sprintf(" (default %v)", defValue)
+		}
+	}
+	fmt.Fprintf(os.Stderr, s, "\n")
 }
 
 // Standard
