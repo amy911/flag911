@@ -115,17 +115,17 @@ func (fs *FlagSet) PrettyPrintDefaults() {
 
 func prettyPrintDefault_golang_flag(flag *golang_flag.Flag) {
 	typeName, usage := golang_flag.UnquoteUsage(flag)
-	fmt.Fprintf(os.Stderr, prettyPrintDefault(flag.Name, "", typeName, usage, flag.DefValue, flag.Value), vt.SafeNewLine)
+	fmt.Fprint(os.Stderr, prettyPrintDefault(flag.Name, "", typeName, usage, flag.DefValue, flag.Value), vt.SafeNewLine)
 }
 
 func prettyPrintDefault_ogier_pflag(flag *ogier_pflag.Flag) {
 	typeName, usage := ogier_pflag.UnquoteUsage(flag)
-	fmt.Fprintf(os.Stderr, prettyPrintDefault(flag.Name, flag.Shorthand, typeName, usage, flag.DefValue, flag.Value), vt.SafeNewLine)
+	fmt.Fprint(os.Stderr, prettyPrintDefault(flag.Name, flag.Shorthand, typeName, usage, flag.DefValue, flag.Value), vt.SafeNewLine)
 }
 
 func prettyPrintDefault_spf13_pflag(flag *spf13_pflag.Flag) {
 	typeName, usage := spf13_pflag.UnquoteUsage(flag)
-	fmt.Fprintf(os.Stderr, prettyPrintDefault(flag.Name, flag.Shorthand, typeName, usage, flag.DefValue, flag.Value), vt.SafeNewLine)
+	fmt.Fprint(os.Stderr, prettyPrintDefault(flag.Name, flag.Shorthand, typeName, usage, flag.DefValue, flag.Value), vt.SafeNewLine)
 }
 
 func prettyPrintDefault(name, shorthand, typeName, usage, defValue string, value interface{}) string {
