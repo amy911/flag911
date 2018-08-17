@@ -2,6 +2,7 @@ package flag
 
 import (
 	golang_flag "flag"
+	"fmt"
 	"io"
 	"net"
 	"os"
@@ -95,17 +96,17 @@ func (fs *FlagSet) PrettyPrintDefaults() {
 	case *golang_flag.FlagSet:
 		w := fs.output
 		fs.SetOutput(os.Stderr)
-		fs.(*golang_flag.FlagSet).VisitAll(prettyPrintDefault_golang_flag)
+		fs.impl.(*golang_flag.FlagSet).VisitAll(prettyPrintDefault_golang_flag)
 		fs.SetOutput(w)
 	case *ogier_pflag.FlagSet:
 		w := fs.output
 		fs.SetOutput(os.Stderr)
-		fs.(*ogier_pflag.FlagSet).VisitAll(prettyPrintDefault_ogier_pflag)
+		fs.impl.(*ogier_pflag.FlagSet).VisitAll(prettyPrintDefault_ogier_pflag)
 		fs.SetOutput(w)
 	case *spf13_pflag.FlagSet:
 		w := fs.output
 		fs.SetOutput(os.Stderr)
-		fs.(*spf13_pflag.FlagSet).VisitAll(prettyPrintDefault_spf13_pflag)
+		fs.impl.(*spf13_pflag.FlagSet).VisitAll(prettyPrintDefault_spf13_pflag)
 		fs.SetOutput(w)
 	default:
 		fs.PrintDefaults()
@@ -113,15 +114,18 @@ func (fs *FlagSet) PrettyPrintDefaults() {
 }
 
 func prettyPrintDefault_golang_flag(flag *golang_flag.Flag) {
-	fmt.Fprintf(os.Stderr, prettyPrintDefault(flag.Name, flag.Shorthand, golang_flag.UnquoteUsage(flag), flag.DefValue, flag.Value), vt.SafeNewLine)
+	typeName, usage := golang_flag.UnquoteUsage(flag)
+	fmt.Fprintf(os.Stderr, prettyPrintDefault(flag.Name, flag.Shorthand, typeName, usage, flag.DefValue, flag.Value), vt.SafeNewLine)
 }
 
 func prettyPrintDefault_ogier_pflag(flag *ogier_pflag.Flag) {
-	fmt.Fprintf(os.Stderr, prettyPrintDefault(flag.Name, flag.Shorthand, ogier_pflag.UnquoteUsage(flag), flag.DefValue, flag.Value), vt.SafeNewLine)
+	typeName, usage := ogier_pflag.UnquoteUsage(flag)
+	fmt.Fprintf(os.Stderr, prettyPrintDefault(flag.Name, flag.Shorthand, typeName, usage, flag.DefValue, flag.Value), vt.SafeNewLine)
 }
 
 func prettyPrintDefault_spf13_pflag(flag *spf13_pflag.Flag) {
-	fmt.Fprintf(os.Stderr, prettyPrintDefault(flag.Name, flag.Shorthand, spf13_pflag.UnquoteUsage(flag), flag.DefValue, flag.Value), vt.SafeNewLine)
+	typeName, usage := spf13_pflag.UnquoteUsage(flag)
+	fmt.Fprintf(os.Stderr, prettyPrintDefault(flag.Name, flag.Shorthand, typeName, usage, flag.DefValue, flag.Value), vt.SafeNewLine)
 }
 
 func prettyPrintDefault(name, shorthand, typeName, usage, defValue string, value interface{}) string {
