@@ -18,6 +18,7 @@ type hookWrap struct {
 }
 
 type FlagSet struct {
+	name       string
 	impl       interface{}
 	usage      interface{}
 	hooks      map[string]hookWrap
@@ -25,17 +26,18 @@ type FlagSet struct {
 
 	usageHeader, usageFooter string
 
-	usageWriter io.Writer
+	output io.Writer
 }
 
-func New(impl interface{}) *FlagSet {
-	return new(FlagSet).Init(impl)
+func New(name string, impl interface{}) *FlagSet {
+	return new(FlagSet).Init(name, impl)
 }
 
-func (fs *FlagSet) Init(impl interface{}) *FlagSet {
+func (fs *FlagSet) Init(name string, impl interface{}) *FlagSet {
+	fs.name = name
 	fs.impl = impl
 	fs.hooks = make(map[string]hookWrap)
-	fs.usageWriter = os.Stderr
+	fs.output = os.Stderr
 	return fs
 }
 
@@ -78,6 +80,13 @@ func (fs *FlagSet) SetHook(key string, hook Hook, user ...interface{}) {
 
 // Standard
 
+func (fs *FlagSet) Args() []string {
+	if f, ok := fs.impl.(interface{ Args() []string }); ok {
+		return f.Args()
+	}
+	panic(error911.NewNotSupported("Args"))
+}
+
 func (fs *FlagSet) Parse(arguments []string) error {
 	if f, ok := fs.impl.(interface{ Parse([]string) error }); ok {
 		return f.Parse(arguments)
@@ -85,15 +94,42 @@ func (fs *FlagSet) Parse(arguments []string) error {
 	panic(error911.NewNotSupported("Parse"))
 }
 
+func (fs *FlagSet) PrintDefaults() {
+	if f, ok := fs.impl.(interface{ PrintDefaults() }); ok {
+		PrintDefaults()
+		return
+	}
+	panic(error911.NewNotSupported("PrintDefaults"))
+}
+
+func (fs *FlagSet) SetOutput(w io.Writer) {
+	if w == nil {
+		w = os.Stderr
+	}
+	fs.output = w
+	if f, ok := fs.impl.(interface{ SetOutput(io.Writer) }); ok {
+		f.SetOutput(w)
+		return
+	}
+	panic(error911.NewNotSupported("SetOutput"))
+}
+
 // Usage
 
 func (fs *FlagSet) Usage(user ...interface{}) error {
-	if fs.usageWriter == nil {
-		fs.usageWriter = os.Stderr
-	}
 	if text := fs.usageHeader; len(text) > 0 {
-		if _, err := io.WriteString(fs.usageWriter, text); err != nil {
+		if _, err := io.WriteString(fs.output, text); err != nil {
 			return err
+		}
+	} else {
+		if len(fs.name) > 0 {
+			if _, err := io.WriteString(fs.output, "Usage of "+fs.name+":\n"); err != nil {
+				return err
+			}
+		} else {
+			if _, err := io.WriteString(fs.output, "Usage:\n"); err != nil {
+				return err
+			}
 		}
 	}
 	if fs.usage != nil {
@@ -108,9 +144,11 @@ func (fs *FlagSet) Usage(user ...interface{}) error {
 		} else if f, ok := fs.usage.(func()); ok {
 			f()
 		}
+	} else {
+		fs.PrintDefaults()
 	}
 	if text := fs.usageFooter; len(text) > 0 {
-		if _, err := io.WriteString(fs.usageWriter, text); err != nil {
+		if _, err := io.WriteString(fs.output, text); err != nil {
 			return err
 		}
 	}
