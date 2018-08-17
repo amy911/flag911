@@ -96,7 +96,7 @@ func (fs *FlagSet) Parse(arguments []string) error {
 
 func (fs *FlagSet) PrintDefaults() {
 	if f, ok := fs.impl.(interface{ PrintDefaults() }); ok {
-		PrintDefaults()
+		f.PrintDefaults()
 		return
 	}
 	panic(error911.NewNotSupported("PrintDefaults"))
@@ -152,6 +152,7 @@ func (fs *FlagSet) Usage(user ...interface{}) error {
 			return err
 		}
 	}
+	return nil
 }
 func (fs *FlagSet) UsageFallback() {
 	fs.Usage()
@@ -196,7 +197,7 @@ func (fs *FlagSet) ShorthandWorks() bool {
 
 func (fs *FlagSet) Bool(name string, value bool, usage string) *bool {
 	if fs.runHooks("Bool", nil, name, "", value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("Bool")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		Bool(string, bool, string) *bool
@@ -207,7 +208,7 @@ func (fs *FlagSet) Bool(name string, value bool, usage string) *bool {
 }
 func (fs *FlagSet) BoolP(name string, shorthand string, value bool, usage string) *bool {
 	if fs.runHooks("BoolP", nil, name, shorthand, value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("BoolP")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		BoolP(string, string, bool, string) *bool
@@ -254,7 +255,7 @@ func (fs *FlagSet) BoolVarP(p *bool, name string, shorthand string, value bool, 
 
 func (fs *FlagSet) Count(name string, value int, usage string) *int {
 	if fs.runHooks("Count", nil, name, "", value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("Count")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		Count(string, int, string) *int
@@ -265,7 +266,7 @@ func (fs *FlagSet) Count(name string, value int, usage string) *int {
 }
 func (fs *FlagSet) CountP(name string, shorthand string, value int, usage string) *int {
 	if fs.runHooks("CountP", nil, name, shorthand, value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("CountP")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		CountP(string, string, int, string) *int
@@ -312,7 +313,7 @@ func (fs *FlagSet) CountVarP(p *int, name string, shorthand string, value int, u
 
 func (fs *FlagSet) Duration(name string, value time.Duration, usage string) *time.Duration {
 	if fs.runHooks("Duration", nil, name, "", value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("Duration")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		Duration(string, time.Duration, string) *time.Duration
@@ -323,7 +324,7 @@ func (fs *FlagSet) Duration(name string, value time.Duration, usage string) *tim
 }
 func (fs *FlagSet) DurationP(name string, shorthand string, value time.Duration, usage string) *time.Duration {
 	if fs.runHooks("DurationP", nil, name, shorthand, value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("DurationP")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		DurationP(string, string, time.Duration, string) *time.Duration
@@ -370,7 +371,7 @@ func (fs *FlagSet) DurationVarP(p *time.Duration, name string, shorthand string,
 
 func (fs *FlagSet) Float32(name string, value float32, usage string) *float32 {
 	if fs.runHooks("Float32", nil, name, "", value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("Float32")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		Float32(string, float32, string) *float32
@@ -381,7 +382,7 @@ func (fs *FlagSet) Float32(name string, value float32, usage string) *float32 {
 }
 func (fs *FlagSet) Float32P(name string, shorthand string, value float32, usage string) *float32 {
 	if fs.runHooks("Float32P", nil, name, shorthand, value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("Float32P")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		Float32P(string, string, float32, string) *float32
@@ -428,7 +429,7 @@ func (fs *FlagSet) Float32VarP(p *float32, name string, shorthand string, value 
 
 func (fs *FlagSet) Float64(name string, value float64, usage string) *float64 {
 	if fs.runHooks("Float64", nil, name, "", value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("Float64")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		Float64(string, float64, string) *float64
@@ -439,7 +440,7 @@ func (fs *FlagSet) Float64(name string, value float64, usage string) *float64 {
 }
 func (fs *FlagSet) Float64P(name string, shorthand string, value float64, usage string) *float64 {
 	if fs.runHooks("Float64P", nil, name, shorthand, value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("Float64P")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		Float64P(string, string, float64, string) *float64
@@ -486,7 +487,7 @@ func (fs *FlagSet) Float64VarP(p *float64, name string, shorthand string, value 
 
 func (fs *FlagSet) Int(name string, value int, usage string) *int {
 	if fs.runHooks("Int", nil, name, "", value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("Int")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		Int(string, int, string) *int
@@ -497,7 +498,7 @@ func (fs *FlagSet) Int(name string, value int, usage string) *int {
 }
 func (fs *FlagSet) IntP(name string, shorthand string, value int, usage string) *int {
 	if fs.runHooks("IntP", nil, name, shorthand, value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("IntP")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		IntP(string, string, int, string) *int
@@ -544,7 +545,7 @@ func (fs *FlagSet) IntVarP(p *int, name string, shorthand string, value int, usa
 
 func (fs *FlagSet) Int8(name string, value int8, usage string) *int8 {
 	if fs.runHooks("Int8", nil, name, "", value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("Int8")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		Int8(string, int8, string) *int8
@@ -555,7 +556,7 @@ func (fs *FlagSet) Int8(name string, value int8, usage string) *int8 {
 }
 func (fs *FlagSet) Int8P(name string, shorthand string, value int8, usage string) *int8 {
 	if fs.runHooks("Int8P", nil, name, shorthand, value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("Int8P")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		Int8P(string, string, int8, string) *int8
@@ -602,7 +603,7 @@ func (fs *FlagSet) Int8VarP(p *int8, name string, shorthand string, value int8, 
 
 func (fs *FlagSet) Int16(name string, value int16, usage string) *int16 {
 	if fs.runHooks("Int16", nil, name, "", value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("Int16")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		Int16(string, int16, string) *int16
@@ -613,7 +614,7 @@ func (fs *FlagSet) Int16(name string, value int16, usage string) *int16 {
 }
 func (fs *FlagSet) Int16P(name string, shorthand string, value int16, usage string) *int16 {
 	if fs.runHooks("Int16P", nil, name, shorthand, value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("Int16P")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		Int16P(string, string, int16, string) *int16
@@ -660,7 +661,7 @@ func (fs *FlagSet) Int16VarP(p *int16, name string, shorthand string, value int1
 
 func (fs *FlagSet) Int32(name string, value int32, usage string) *int32 {
 	if fs.runHooks("Int32", nil, name, "", value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("Int32")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		Int32(string, int32, string) *int32
@@ -671,7 +672,7 @@ func (fs *FlagSet) Int32(name string, value int32, usage string) *int32 {
 }
 func (fs *FlagSet) Int32P(name string, shorthand string, value int32, usage string) *int32 {
 	if fs.runHooks("Int32P", nil, name, shorthand, value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("Int32P")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		Int32P(string, string, int32, string) *int32
@@ -718,7 +719,7 @@ func (fs *FlagSet) Int32VarP(p *int32, name string, shorthand string, value int3
 
 func (fs *FlagSet) Int64(name string, value int64, usage string) *int64 {
 	if fs.runHooks("Int64", nil, name, "", value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("Int64")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		Int64(string, int64, string) *int64
@@ -729,7 +730,7 @@ func (fs *FlagSet) Int64(name string, value int64, usage string) *int64 {
 }
 func (fs *FlagSet) Int64P(name string, shorthand string, value int64, usage string) *int64 {
 	if fs.runHooks("Int64P", nil, name, shorthand, value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("Int64P")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		Int64P(string, string, int64, string) *int64
@@ -776,7 +777,7 @@ func (fs *FlagSet) Int64VarP(p *int64, name string, shorthand string, value int6
 
 func (fs *FlagSet) IP(name string, value net.IP, usage string) *net.IP {
 	if fs.runHooks("IP", nil, name, "", value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("IP")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		IP(string, net.IP, string) *net.IP
@@ -787,7 +788,7 @@ func (fs *FlagSet) IP(name string, value net.IP, usage string) *net.IP {
 }
 func (fs *FlagSet) IPP(name string, shorthand string, value net.IP, usage string) *net.IP {
 	if fs.runHooks("IPP", nil, name, shorthand, value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("IPP")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		IPP(string, string, net.IP, string) *net.IP
@@ -834,7 +835,7 @@ func (fs *FlagSet) IPVarP(p *net.IP, name string, shorthand string, value net.IP
 
 func (fs *FlagSet) IPMask(name string, value net.IPMask, usage string) *net.IPMask {
 	if fs.runHooks("IPMask", nil, name, "", value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("IPMask")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		IPMask(string, net.IPMask, string) *net.IPMask
@@ -845,7 +846,7 @@ func (fs *FlagSet) IPMask(name string, value net.IPMask, usage string) *net.IPMa
 }
 func (fs *FlagSet) IPMaskP(name string, shorthand string, value net.IPMask, usage string) *net.IPMask {
 	if fs.runHooks("IPMaskP", nil, name, shorthand, value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("IPMaskP")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		IPMaskP(string, string, net.IPMask, string) *net.IPMask
@@ -892,7 +893,7 @@ func (fs *FlagSet) IPMaskVarP(p *net.IPMask, name string, shorthand string, valu
 
 func (fs *FlagSet) String(name string, value string, usage string) *string {
 	if fs.runHooks("String", nil, name, "", value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("String")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		String(string, string, string) *string
@@ -903,7 +904,7 @@ func (fs *FlagSet) String(name string, value string, usage string) *string {
 }
 func (fs *FlagSet) StringP(name string, shorthand string, value string, usage string) *string {
 	if fs.runHooks("StringP", nil, name, shorthand, value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("StringP")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		StringP(string, string, string, string) *string
@@ -950,7 +951,7 @@ func (fs *FlagSet) StringVarP(p *string, name string, shorthand string, value st
 
 func (fs *FlagSet) Time(name string, value time.Time, usage string) *time.Time {
 	if fs.runHooks("Time", nil, name, "", value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("Time")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		Time(string, time.Time, string) *time.Time
@@ -961,7 +962,7 @@ func (fs *FlagSet) Time(name string, value time.Time, usage string) *time.Time {
 }
 func (fs *FlagSet) TimeP(name string, shorthand string, value time.Time, usage string) *time.Time {
 	if fs.runHooks("TimeP", nil, name, shorthand, value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("TimeP")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		TimeP(string, string, time.Time, string) *time.Time
@@ -1008,7 +1009,7 @@ func (fs *FlagSet) TimeVarP(p *time.Time, name string, shorthand string, value t
 
 func (fs *FlagSet) Uint(name string, value uint, usage string) *uint {
 	if fs.runHooks("Uint", nil, name, "", value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("Uint")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		Uint(string, uint, string) *uint
@@ -1019,7 +1020,7 @@ func (fs *FlagSet) Uint(name string, value uint, usage string) *uint {
 }
 func (fs *FlagSet) UintP(name string, shorthand string, value uint, usage string) *uint {
 	if fs.runHooks("UintP", nil, name, shorthand, value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("UintP")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		UintP(string, string, uint, string) *uint
@@ -1066,7 +1067,7 @@ func (fs *FlagSet) UintVarP(p *uint, name string, shorthand string, value uint, 
 
 func (fs *FlagSet) Uint8(name string, value uint8, usage string) *uint8 {
 	if fs.runHooks("Uint8", nil, name, "", value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("Uint8")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		Uint8(string, uint8, string) *uint8
@@ -1077,7 +1078,7 @@ func (fs *FlagSet) Uint8(name string, value uint8, usage string) *uint8 {
 }
 func (fs *FlagSet) Uint8P(name string, shorthand string, value uint8, usage string) *uint8 {
 	if fs.runHooks("Uint8P", nil, name, shorthand, value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("Uint8P")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		Uint8P(string, string, uint8, string) *uint8
@@ -1124,7 +1125,7 @@ func (fs *FlagSet) Uint8VarP(p *uint8, name string, shorthand string, value uint
 
 func (fs *FlagSet) Uint16(name string, value uint16, usage string) *uint16 {
 	if fs.runHooks("Uint16", nil, name, "", value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("Uint16")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		Uint16(string, uint16, string) *uint16
@@ -1135,7 +1136,7 @@ func (fs *FlagSet) Uint16(name string, value uint16, usage string) *uint16 {
 }
 func (fs *FlagSet) Uint16P(name string, shorthand string, value uint16, usage string) *uint16 {
 	if fs.runHooks("Uint16P", nil, name, shorthand, value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("Uint16P")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		Uint16P(string, string, uint16, string) *uint16
@@ -1182,7 +1183,7 @@ func (fs *FlagSet) Uint16VarP(p *uint16, name string, shorthand string, value ui
 
 func (fs *FlagSet) Uint32(name string, value uint32, usage string) *uint32 {
 	if fs.runHooks("Uint32", nil, name, "", value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("Uint32")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		Uint32(string, uint32, string) *uint32
@@ -1193,7 +1194,7 @@ func (fs *FlagSet) Uint32(name string, value uint32, usage string) *uint32 {
 }
 func (fs *FlagSet) Uint32P(name string, shorthand string, value uint32, usage string) *uint32 {
 	if fs.runHooks("Uint32P", nil, name, shorthand, value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("Uint32P")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		Uint32P(string, string, uint32, string) *uint32
@@ -1240,7 +1241,7 @@ func (fs *FlagSet) Uint32VarP(p *uint32, name string, shorthand string, value ui
 
 func (fs *FlagSet) Uint64(name string, value uint64, usage string) *uint64 {
 	if fs.runHooks("Uint64", nil, name, "", value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("Uint64")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		Uint64(string, uint64, string) *uint64
@@ -1251,7 +1252,7 @@ func (fs *FlagSet) Uint64(name string, value uint64, usage string) *uint64 {
 }
 func (fs *FlagSet) Uint64P(name string, shorthand string, value uint64, usage string) *uint64 {
 	if fs.runHooks("Uint64P", nil, name, shorthand, value, usage) {
-		panic(Cancel) // This operation cannot be safely canceled
+		panic(error911.NewCancel("Uint64P")) // This operation cannot be safely canceled
 	}
 	if f, ok := fs.impl.(interface {
 		Uint64P(string, string, uint64, string) *uint64
