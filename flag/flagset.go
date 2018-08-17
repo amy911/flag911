@@ -161,11 +161,11 @@ func (fs *FlagSet) UsageFallbackError() error {
 	return fs.Usage()
 }
 func (fs *FlagSet) SetUsage(cb interface{}) {
-	if f, ok := cb.(func(...interface{}) error); ok {
+	if _, ok := cb.(func(...interface{}) error); ok {
 		fs.usage = cb
-	} else if f, ok := cb.(func() error); ok {
+	} else if _, ok := cb.(func() error); ok {
 		fs.usage = cb
-	} else if f, ok := cb.(func()); ok {
+	} else if _, ok := cb.(func()); ok {
 		fs.usage = cb
 	} else {
 		panic("Argument to SetUsage must be `func(...interface{}) error`, `func() error`, or `func()`")
