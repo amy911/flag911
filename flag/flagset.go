@@ -1,7 +1,9 @@
 package flag
 
 import (
+	"io"
 	"net"
+	"os"
 	"sync"
 	"time"
 )
@@ -15,8 +17,13 @@ type hookWrap struct {
 
 type FlagSet struct {
 	Impl       interface{}
+	usage      interface{}
 	hooks      map[string]hookWrap
 	hooksMutex sync.RWMutex
+
+	usageHeader, usageFooter string
+
+	usageWriter io.Writer
 }
 
 func New(impl interface{}) *FlagSet {
@@ -26,6 +33,7 @@ func New(impl interface{}) *FlagSet {
 func (fs *FlagSet) Init(impl interface{}) *FlagSet {
 	fs.Impl = impl
 	fs.hooks = make(map[string]hookWrap)
+	fs.usageWriter = os.Stderr
 	return fs
 }
 
@@ -77,26 +85,56 @@ func (fs *FlagSet) Parse(arguments []string) error {
 
 // Usage
 
-func (fs *FlagSet) Usage() {
-	if f, ok := fs.Impl.(interface{ Usage() }); ok {
-		f.Usage()
-		return
+func (fs *FlagSet) Usage(user ...interface{}) error {
+	if fs.usageWriter == nil {
+		fs.usageWriter = os.Stderr
 	}
-	panic(NewErrNotSupported("Usage"))
+	if text := fs.usageHeader; len(text) > 0 {
+		if _, err := io.WriteString(fs.usageWriter, text); err != nil {
+			return err
+		}
+	}
+	if fs.usage != nil {
+		if f, ok := fs.usage.(func(...interface{}) error); ok {
+			if err := f(user...); err != nil {
+				return err
+			}
+		} else if f, ok := fs.usage.(func() error); ok {
+			if err := f(); err != nil {
+				return err
+			}
+		} else if f, ok := fs.usage.(func()); ok {
+			f()
+		}
+	}
+	if text := fs.usageFooter; len(text) > 0 {
+		if _, err := io.WriteString(fs.usageWriter, text); err != nil {
+			return err
+		}
+	}
+}
+func (fs *FlagSet) UsageFallback() {
+	fs.Usage()
+}
+func (fs *FlagSet) UsageFallbackError() error {
+	return fs.Usage()
+}
+func (fs *FlagSet) SetUsage(cb interface{}) {
+	if f, ok := cb.(func(...interface{}) error); ok {
+		fs.usage = cb
+	} else if f, ok := cb.(func() error); ok {
+		fs.usage = cb
+	} else if f, ok := cb.(func()); ok {
+		fs.usage = cb
+	} else {
+		panic("Argument to SetUsage must be `func(...interface{}) error`, `func() error`, or `func()`")
+	}
 }
 func (fs *FlagSet) SetUsageHeader(text string) {
-	if f, ok := fs.Impl.(interface{ SetUsageHeader(string) }); ok {
-		f.SetUsageHeader(text)
-		return
-	}
-	panic(NewErrNotSupported("SetUsageHeader"))
+	fs.usageHeader = text
 }
 func (fs *FlagSet) SetUsageFooter(text string) {
-	if f, ok := fs.Impl.(interface{ SetUsageFooter(string) }); ok {
-		f.SetUsageFooter(text)
-		return
-	}
-	panic(NewErrNotSupported("SetUsageFooter"))
+	fs.usageFooter = text
 }
 
 // Feature tests
